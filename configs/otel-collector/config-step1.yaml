@@ -28,6 +28,8 @@ receivers:
         enabled: true
       cache:
         enabled: true
+      checkpointer:
+        enabled: true
       databases:
         enabled: true
       health:

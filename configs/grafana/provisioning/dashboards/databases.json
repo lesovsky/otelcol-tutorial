@@ -1,0 +1,415 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 2,
+  "links": [],
+  "panels": [
+    {
+      "title": "Database Size",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "thresholds": {
+            "steps": [
+              { "color": "blue", "value": null }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "targets": [
+        {
+          "expr": "postgresql_databases_size_bytes",
+          "legendFormat": "{{ database }}"
+        }
+      ]
+    },
+    {
+      "title": "Connected Backends",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 50 },
+              { "color": "red", "value": 100 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "targets": [
+        {
+          "expr": "postgresql_databases_backends_milliseconds",
+          "legendFormat": "{{ database }}"
+        }
+      ]
+    },
+    {
+      "title": "Cache Hit Ratio",
+      "type": "gauge",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "thresholds": {
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 0.9 },
+              { "color": "green", "value": 0.99 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "expr": "postgresql_cache_hit_ratio_unixtime",
+          "legendFormat": "{{ database }}"
+        }
+      ]
+    },
+    {
+      "title": "Deadlocks",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "textMode": "value",
+        "colorMode": "background",
+        "reduceOptions": { "calcs": ["lastNotNull"] }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_deadlocks_unixtime_total[5m])",
+          "legendFormat": "{{ database }}"
+        }
+      ]
+    },
+    {
+      "title": "Transactions — Commits & Rollbacks",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byRegexp", "options": "/rollbacks/" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_commits_unixtime_total[1m])",
+          "legendFormat": "commits {{ database }}"
+        },
+        {
+          "expr": "rate(postgresql_databases_rollbacks_bytes_total[1m])",
+          "legendFormat": "rollbacks {{ database }}"
+        }
+      ]
+    },
+    {
+      "title": "Tuples — DML Operations",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_tuples_inserted_bytes_total[1m])",
+          "legendFormat": "inserted"
+        },
+        {
+          "expr": "rate(postgresql_databases_tuples_updated_bytes_total[1m])",
+          "legendFormat": "updated"
+        },
+        {
+          "expr": "rate(postgresql_databases_tuples_deleted_bytes_total[1m])",
+          "legendFormat": "deleted"
+        }
+      ]
+    },
+    {
+      "title": "Tuples — Read Operations",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_tuples_fetched_bytes_total[1m])",
+          "legendFormat": "fetched"
+        },
+        {
+          "expr": "rate(postgresql_databases_tuples_returned_bytes_total[1m])",
+          "legendFormat": "returned"
+        }
+      ]
+    },
+    {
+      "title": "Blocks — Hit vs Read",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "stacking": { "mode": "normal" },
+            "fillOpacity": 80,
+            "lineWidth": 0,
+            "barAlignment": 0
+          },
+          "unit": "ops"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "read (disk)" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "hit (cache)" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_blocks_hit_milliseconds_total[1m])",
+          "legendFormat": "hit (cache)"
+        },
+        {
+          "expr": "rate(postgresql_databases_blocks_read_milliseconds_total[1m])",
+          "legendFormat": "read (disk)"
+        }
+      ]
+    },
+    {
+      "title": "Block I/O Time",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_block_read_time_milliseconds_total[1m])",
+          "legendFormat": "read time"
+        },
+        {
+          "expr": "rate(postgresql_databases_block_write_time_milliseconds_total[1m])",
+          "legendFormat": "write time"
+        }
+      ]
+    },
+    {
+      "title": "Temp Files & Bytes",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "temp bytes" },
+            "properties": [
+              { "id": "unit", "value": "Bps" },
+              { "id": "custom.axisPlacement", "value": "right" }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "temp files" },
+            "properties": [
+              { "id": "unit", "value": "ops" }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_temp_files_bytes_total[1m])",
+          "legendFormat": "temp files"
+        },
+        {
+          "expr": "rate(postgresql_databases_temp_bytes_total[1m])",
+          "legendFormat": "temp bytes"
+        }
+      ]
+    },
+    {
+      "title": "Sessions",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 28 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byRegexp", "options": "/fatal|killed|abandoned/" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_sessions_milliseconds_total[1m])",
+          "legendFormat": "total"
+        },
+        {
+          "expr": "rate(postgresql_databases_sessions_abandoned_milliseconds_total[1m])",
+          "legendFormat": "abandoned"
+        },
+        {
+          "expr": "rate(postgresql_databases_sessions_fatal_milliseconds_total[1m])",
+          "legendFormat": "fatal"
+        },
+        {
+          "expr": "rate(postgresql_databases_sessions_killed_milliseconds_total[1m])",
+          "legendFormat": "killed"
+        }
+      ]
+    },
+    {
+      "title": "Conflicts",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_databases_conflicts_unixtime_total[1m])",
+          "legendFormat": "conflicts {{ database }}"
+        },
+        {
+          "expr": "rate(postgresql_databases_deadlocks_unixtime_total[1m])",
+          "legendFormat": "deadlocks {{ database }}"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["postgresql", "databases"],
+  "templating": { "list": [] },
+  "time": { "from": "now-30m", "to": "now" },
+  "title": "PostgreSQL Databases",
+  "uid": "pg-databases",
+  "version": 1
+}

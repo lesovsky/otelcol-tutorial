@@ -1,0 +1,265 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 2,
+  "links": [],
+  "panels": [
+    {
+      "title": "Checkpoints — Requested vs Timed",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "requested" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "timed" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_checkpointer_num_requested_unixtime_total[5m])",
+          "legendFormat": "requested"
+        },
+        {
+          "expr": "rate(postgresql_checkpointer_num_timed_unixtime_total[5m])",
+          "legendFormat": "timed"
+        }
+      ]
+    },
+    {
+      "title": "Checkpoints Completed",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_checkpointer_num_done_unixtime_total[5m])",
+          "legendFormat": "completed"
+        }
+      ]
+    },
+    {
+      "title": "Checkpoint Write Time",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "sync" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_checkpointer_write_time_milliseconds_total[5m])",
+          "legendFormat": "write"
+        },
+        {
+          "expr": "rate(postgresql_checkpointer_sync_time_milliseconds_total[5m])",
+          "legendFormat": "sync"
+        }
+      ]
+    },
+    {
+      "title": "Checkpointer Buffers Written",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "stacking": { "mode": "normal" },
+            "fillOpacity": 30,
+            "lineWidth": 1
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_checkpointer_buffers_written_unixtime_total[5m])",
+          "legendFormat": "checkpointer buffers"
+        },
+        {
+          "expr": "rate(postgresql_checkpointer_slru_written_unixtime_total[5m])",
+          "legendFormat": "SLRU pages"
+        }
+      ]
+    },
+    {
+      "title": "Background Writer — Buffers Cleaned",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_bgwriter_buffers_clean_unixtime_total[5m])",
+          "legendFormat": "buffers cleaned"
+        }
+      ]
+    },
+    {
+      "title": "Background Writer — Buffers Allocated",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_bgwriter_buffers_allocated_unixtime_total[5m])",
+          "legendFormat": "buffers allocated"
+        }
+      ]
+    },
+    {
+      "title": "Background Writer — Max Written Clean Stops",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 24 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_bgwriter_maxwritten_clean_unixtime_total[5m])",
+          "legendFormat": "maxwritten stops"
+        }
+      ]
+    },
+    {
+      "title": "Restartpoints",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 24 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "rate(postgresql_checkpointer_restartpoints_timed_unixtime_total[5m])",
+          "legendFormat": "timed"
+        },
+        {
+          "expr": "rate(postgresql_checkpointer_restartpoints_req_unixtime_total[5m])",
+          "legendFormat": "requested"
+        },
+        {
+          "expr": "rate(postgresql_checkpointer_restartpoints_done_unixtime_total[5m])",
+          "legendFormat": "done"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["postgresql", "bgwriter", "checkpointer"],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "title": "PostgreSQL Background Writer",
+  "uid": "pg-bgwriter",
+  "version": 1
+}

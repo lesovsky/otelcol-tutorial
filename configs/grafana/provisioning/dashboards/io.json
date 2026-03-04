@@ -1,0 +1,293 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 2,
+  "links": [],
+  "panels": [
+    {
+      "title": "Read Operations",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "stacking": { "mode": "normal" },
+            "fillOpacity": 30,
+            "lineWidth": 1
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_reads_milliseconds_total[1m])) > 0",
+          "legendFormat": "{{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Write Operations",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "stacking": { "mode": "normal" },
+            "fillOpacity": 30,
+            "lineWidth": 1
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_writes_milliseconds_total[1m])) > 0",
+          "legendFormat": "{{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Read Throughput",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "stacking": { "mode": "normal" },
+            "fillOpacity": 30,
+            "lineWidth": 1
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_read_bytes_total[1m])) > 0",
+          "legendFormat": "{{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Write Throughput",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "stacking": { "mode": "normal" },
+            "fillOpacity": 30,
+            "lineWidth": 1
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_write_bytes_total[1m])) > 0",
+          "legendFormat": "{{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Read Latency",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_read_time_milliseconds_total[1m])) > 0",
+          "legendFormat": "{{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Write Latency",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_write_time_milliseconds_total[1m])) > 0",
+          "legendFormat": "{{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Extend Operations",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 24 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "stacking": { "mode": "normal" },
+            "fillOpacity": 30,
+            "lineWidth": 1
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_extends_milliseconds_total[1m])) > 0",
+          "legendFormat": "{{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Fsync Operations",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 24 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "stacking": { "mode": "normal" },
+            "fillOpacity": 30,
+            "lineWidth": 1
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_fsyncs_milliseconds_total[1m])) > 0",
+          "legendFormat": "{{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Cache — Hits & Evictions",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 32 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ops"
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byRegexp", "options": "/evictions/" },
+            "properties": [
+              { "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_hits_milliseconds_total[1m])) > 0",
+          "legendFormat": "hits {{ backend_type }}"
+        },
+        {
+          "expr": "topk(3, rate(postgresql_io_evictions_milliseconds_total[1m])) > 0",
+          "legendFormat": "evictions {{ backend_type }}"
+        }
+      ]
+    },
+    {
+      "title": "Fsync & Writeback Latency",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 32 },
+      "datasource": { "type": "prometheus", "uid": "victoriametrics" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "options": {
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "expr": "topk(5, rate(postgresql_io_fsync_time_milliseconds_total[1m])) > 0",
+          "legendFormat": "fsync {{ backend_type }}"
+        },
+        {
+          "expr": "topk(5, rate(postgresql_io_writeback_time_milliseconds_total[1m])) > 0",
+          "legendFormat": "writeback {{ backend_type }}"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["postgresql", "io"],
+  "templating": { "list": [] },
+  "time": { "from": "now-30m", "to": "now" },
+  "title": "PostgreSQL I/O",
+  "uid": "pg-io",
+  "version": 1
+}
