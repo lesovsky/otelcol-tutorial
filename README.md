@@ -10,12 +10,7 @@
 
 ## Архитектура
 
-```
-PostgreSQL 18 ──> PGPRO OTEL Collector ──> VictoriaMetrics (метрики) ──> Grafana
-  (pgbench)        postgrespro receiver
-                   hostmetrics receiver
-                   filelog receiver    ──> VictoriaLogs (логи)     ──> Grafana
-```
+![Архитектура воркшопа](images/architecture.png)
 
 ## Программа
 
