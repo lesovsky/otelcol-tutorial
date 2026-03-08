@@ -257,7 +257,6 @@ service:
         - hostmetrics       # метрики ОС
       processors:
         - memory_limiter/metrics
-        - batch/metrics
       exporters:
         - prometheus        # публикация для проверки
 ```
@@ -349,7 +348,6 @@ service:
         - hostmetrics
       processors:
         - memory_limiter/metrics
-        - batch/metrics
       exporters:
         - prometheus      # для проверки
         - otlphttp        # → VictoriaMetrics
@@ -481,7 +479,7 @@ service:
   pipelines:
     metrics:                    # пайплайн метрик (без изменений)
       receivers: [postgrespro, hostmetrics]
-      processors: [memory_limiter/metrics, batch/metrics]
+      processors: [memory_limiter/metrics]
       exporters: [prometheus, otlphttp]
 
     logs:                       # новый пайплайн логов

@@ -50,7 +50,6 @@ service:
         - hostmetrics
       processors:
         - memory_limiter/metrics
-        - batch/metrics
       exporters:
         - prometheus        # для проверки (остаётся)
         - otlphttp          # → VictoriaMetrics (новый)

@@ -135,7 +135,6 @@ service:
         - hostmetrics       # метрики ОС
       processors:
         - memory_limiter/metrics
-        - batch/metrics
       exporters:
         - prometheus        # публикация для проверки
 ```

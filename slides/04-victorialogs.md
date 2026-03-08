@@ -136,7 +136,7 @@ service:
   pipelines:
     metrics:                    # пайплайн метрик (без изменений)
       receivers:  [postgrespro, hostmetrics]
-      processors: [memory_limiter/metrics, batch/metrics]
+      processors: [memory_limiter/metrics]
       exporters:  [prometheus, otlphttp]
 
     logs:                       # новый пайплайн логов

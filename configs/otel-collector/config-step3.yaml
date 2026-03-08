@@ -10,7 +10,7 @@
 #
 # Receivers: postgrespro (PG metrics), hostmetrics (OS metrics), filelog (PG logs)
 # Exporters: prometheus (verification), otlphttp (-> VictoriaMetrics), otlphttp/victorialogs (-> VictoriaLogs)
-# Processors: memory_limiter, batch/metrics, batch/logs, resource, attributes/convert
+# Processors: memory_limiter, batch/logs, resource, attributes/convert
 
 receivers:
   postgrespro:
@@ -115,9 +115,6 @@ processors:
   memory_limiter/metrics:
     check_interval: 1s
     limit_mib: 512
-  batch/metrics:
-    send_batch_size: 8192
-    timeout: 10s
   batch/logs:
     send_batch_size: 4096
     timeout: 15s
@@ -159,7 +156,6 @@ service:
         - hostmetrics
       processors:
         - memory_limiter/metrics
-        - batch/metrics
       exporters:
         - prometheus
         - otlphttp
